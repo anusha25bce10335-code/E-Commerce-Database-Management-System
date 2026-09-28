@@ -1,0 +1,31 @@
+shipment_id,order_id,courier,shipment_status,shipping_date,delivery_date
+1,2,Ecom Express,Delivered,2026-07-02,2026-07-06
+2,3,Delhivery,Delivered,2026-04-12,2026-04-18
+3,5,Delhivery,Delivered,2026-08-01,2026-08-03
+4,6,Delhivery,Delivered,2026-08-22,2026-08-29
+5,9,DTDC,In Transit,2026-09-27,
+6,10,Delhivery,In Transit,2026-06-04,
+7,11,Ecom Express,In Transit,2026-04-22,
+8,13,BlueDart,In Transit,2026-02-26,
+9,14,Ecom Express,In Transit,2026-04-19,
+10,16,Delhivery,Delivered,2026-08-18,2026-08-23
+11,21,DTDC,In Transit,2026-04-16,
+12,22,Ecom Express,In Transit,2026-02-06,
+13,23,Delhivery,In Transit,2026-08-13,
+14,24,DTDC,In Transit,2026-08-12,
+15,34,Ecom Express,In Transit,2026-05-10,
+16,36,DTDC,In Transit,2026-08-05,
+17,37,DTDC,Delivered,2026-07-01,2026-07-07
+18,39,DTDC,Delivered,2026-08-11,2026-08-14
+19,40,Ecom Express,Delivered,2026-07-16,2026-07-23
+20,47,DTDC,Delivered,2026-09-09,2026-09-11
+21,50,Ecom Express,Delivered,2026-05-07,2026-05-11
+22,55,Ecom Express,Delivered,2026-03-10,2026-03-13
+23,57,DTDC,In Transit,2026-03-20,
+24,58,Delhivery,Delivered,2026-09-27,2026-10-04
+25,64,Ecom Express,In Transit,2026-08-11,
+26,66,DTDC,In Transit,2026-08-02,
+27,71,BlueDart,In Transit,2026-03-24,
+28,74,DTDC,In Transit,2026-09-06,
+29,75,Ecom Express,Delivered,2026-09-01,2026-09-10
+30,80,BlueDart,In Transit,2026-06-18,
