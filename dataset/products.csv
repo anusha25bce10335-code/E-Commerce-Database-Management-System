@@ -1,0 +1,30 @@
+product_id,product_name,category_id,unit_price,stock_quantity
+1,Wireless Headphones,1,2499,120
+2,Bluetooth Speaker,1,1799,85
+3,Mechanical Keyboard,1,3299,60
+4,Smart Watch,1,4499,75
+5,USB-C Charger,1,999,150
+6,Cotton T-Shirt,2,699,200
+7,Running Shoes,2,2499,90
+8,Denim Jeans,2,1899,110
+9,Hoodie,2,1499,80
+10,Kitchen Mixer,3,3299,45
+11,Non-Stick Pan,3,1199,70
+12,Water Bottle,3,599,180
+13,Table Lamp,3,899,65
+14,Python Programming,4,799,55
+15,DBMS Fundamentals,4,699,60
+16,Clean Code,4,999,40
+17,Face Wash,5,399,130
+18,Sunscreen,5,599,100
+19,Moisturizer,5,499,95
+20,Yoga Mat,6,899,70
+21,Football,6,799,50
+22,Skipping Rope,6,299,120
+23,Coffee,7,449,160
+24,Green Tea,7,299,140
+25,Almonds,7,699,90
+26,Backpack,8,1299,75
+27,Wallet,8,799,100
+28,Sunglasses,8,999,65
+29,Phone Case,8,499,150
