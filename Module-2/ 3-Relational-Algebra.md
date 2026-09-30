@@ -15,17 +15,17 @@ This is conceptually what happens when we write SQL queries using clauses such a
 ### Example 1
 
 ```text
-σ stock_qty < 10 (Product)
+σ stock_quantity < 10 (products)
 ```
 
 **Meaning:** Selects every product that is running low on stock.
 
-**Use:** Useful for a **"restock alert"** feature on the seller dashboard.
+**Use:** Useful for a **restock alert** feature.
 
 ### Example 2
 
 ```text
-σ status = 'DELIVERED' AND order_date >= '2026-01-01' (Orders)
+σ order_status = 'Delivered' AND order_date >= '2026-01-01' (orders)
 ```
 
 **Meaning:** Selects all orders delivered so far in the year 2026.
@@ -41,20 +41,20 @@ Since a relation cannot contain duplicate rows, repeated rows in the result are 
 ### Example 1
 
 ```text
-π name, email (Customer)
+π customer_name, email (customers)
 ```
 
 **Meaning:** Returns only customer names and email addresses.
 
-**Use:** Useful for sending a newsletter.
+**Use:** Useful for customer communication or newsletters.
 
 ### Example 2
 
 ```text
-π category_id (Product)
+π category_id (products)
 ```
 
-**Meaning:** Returns the distinct list of categories that currently have at least one product listed.
+**Meaning:** Returns the distinct list of category IDs that currently have at least one product listed.
 
 ---
 
@@ -62,19 +62,17 @@ Since a relation cannot contain duplicate rows, repeated rows in the result are 
 
 The **Rename** operation allows us to give a table or its columns a new name.
 
-It becomes especially useful when a table needs to be joined with itself.
+It is especially useful when a table needs to be referenced more than once, such as in a **self-join**.
 
-Our `Category` table is a good example because it refers to itself through `parent_category_id`.
+> **Note:** The actual `categories` table does not contain `parent_category_id`, so category hierarchy/self-join is not used in this project.
 
 ### Example
 
 ```text
-ρ Sub(Category)
+ρ P(products)
 ```
 
-Here, `Sub` is treated as a second, independent reference to the `Category` relation.
-
-This allows us to compare a category with its own subcategories.
+Here, `P` is treated as a renamed reference to the `products` relation.
 
 ---
 
@@ -92,7 +90,7 @@ A **join** combines rows from two or more tables based on a specified condition.
 ### Example 1 — Multiple Table Join
 
 ```text
-Orders ⋈ OrderItem ⋈ Product
+orders ⋈ order_items ⋈ products
 ```
 
 This chains three tables together to build complete **order-line details**, including:
@@ -101,46 +99,36 @@ This chains three tables together to build complete **order-line details**, incl
 order_id
 customer_id
 order_date
-status
-total_amount
+order_status
 product_id
 quantity
 unit_price
-name
-price
-stock_qty
+product_name
 category_id
-seller_id
+stock_quantity
 ```
 
 **Use:** Provides the information required for an **order receipt**.
 
-### Example 2 — Self-Join
+### Example 2 — Product-Supplier Join
 
 ```text
-Category ⋈ (category_id = parent_category_id) ρ Sub(Category)
+products ⋈ product_supplier ⋈ suppliers
 ```
 
-This is a **self-join** that pairs every category with its subcategories.
+**Meaning:** Combines products with their associated suppliers through the `product_supplier` bridge table.
 
-For example:
-
-```text
-Footwear
-├── Running Shoes
-├── Sandals
-└── ...
-```
+**Use:** Useful for viewing **product sourcing and supplier details**.
 
 ### Example 3 — Left Outer Join
 
 ```text
-Customer LEFT OUTER JOIN Review
+customers LEFT OUTER JOIN reviews
 ```
 
 **Meaning:** Returns every customer, including customers who have never written a review.
 
-For customers without reviews, the corresponding `Review` columns contain `NULL`.
+For customers without reviews, the corresponding `reviews` columns contain `NULL`.
 
 ---
 
@@ -162,7 +150,7 @@ Two relations are union-compatible when:
 ### Example 1 — Set Difference
 
 ```text
-π customer_id (Orders) − π customer_id (Review)
+π customer_id (orders) − π customer_id (reviews)
 ```
 
 **Meaning:** Finds customers who have placed at least one order but have never left a review.
@@ -172,7 +160,7 @@ Two relations are union-compatible when:
 ### Example 2 — Products Never Ordered
 
 ```text
-π product_id (Product) − π product_id (OrderItem)
+π product_id (products) − π product_id (order_items)
 ```
 
 **Meaning:** Finds products that have never been ordered.
@@ -182,14 +170,14 @@ Two relations are union-compatible when:
 ### Example 3 — Union
 
 ```text
-π customer_id (σ city = 'Pune' (Address))
+π customer_id (σ city = 'Pune' (customers))
 ∪
-π customer_id (σ city = 'Mumbai' (Address))
+π customer_id (σ city = 'Mumbai' (customers))
 ```
 
-**Meaning:** Finds customers who have at least one address in **Pune or Mumbai**.
+**Meaning:** Finds customers registered in **Pune or Mumbai**.
 
-**Use:** Could be used to target a regional flash-sale notification.
+**Use:** Could be used to target a regional notification or promotion.
 
 ---
 
@@ -220,13 +208,13 @@ Suppose we want to find customers who have purchased **every product in a partic
 First, define relation `R`:
 
 ```text
-R = π customer_id, product_id (Orders ⋈ OrderItem)
+R = π customer_id, product_id (orders ⋈ order_items)
 ```
 
 Then define relation `S`:
 
 ```text
-S = π product_id (σ category_id = 5 (Product))
+S = π product_id (σ category_id = 1 (products))
 ```
 
 Now perform division:
@@ -237,11 +225,11 @@ Result = R ÷ S
 
 ### Meaning
 
-The result contains customers whose set of ordered products covers **every product in category 5**.
+The result contains customers whose set of ordered products covers **every product in category 1**.
 
 In other words:
 
-> Customers who have bought everything in category 5.
+> Customers who have bought everything in category 1.
 
 ### Formal Derivation
 
@@ -280,41 +268,35 @@ It is the relational algebra equivalent of `GROUP BY` in SQL.
 ### Example 1 — Revenue by Category
 
 ```text
-category_id γ SUM(quantity × unit_price) AS revenue
-(OrderItem ⋈ Product)
+γ category_id; SUM(quantity × unit_price) AS revenue
+(order_items ⋈ products)
 ```
 
-**Meaning:** Calculates the total revenue earned by each category.
+**Meaning:** Calculates the total revenue earned for each category.
 
-**Use:** A seller dashboard could display information such as:
-
-```text
-Electronics → ₹4,50,000
-```
-
-for the selected period.
+**Use:** A dashboard could display revenue generated by each product category.
 
 ### Example 2 — Orders per Customer
 
 ```text
-customer_id γ COUNT(order_id) AS order_count (Orders)
+γ customer_id; COUNT(order_id) AS order_count (orders)
 ```
 
 **Meaning:** Calculates how many orders each customer has placed.
 
-**Use:** Useful for identifying customers who order frequently, such as potential **VIP customers**.
+**Use:** Useful for identifying customers who order frequently.
 
 ### Ungrouping
 
 **Ungrouping** is not a separate relational algebra operator.
 
-It simply means moving back from grouped results to the original or detailed data using operations such as:
+It simply means moving back from grouped results to detailed data using operations such as:
 
 * Projection
 * Joins
 * Joining a grouped result back with the original table
 
-For example, a category-revenue result containing only `category_id` can be joined with `Category` to obtain the readable `category_name`.
+For example, a category-revenue result containing only `category_id` can be joined with `categories` to obtain the readable `category_name`.
 
 ---
 
