@@ -167,15 +167,15 @@ E-Commerce-Database-Management-System/
 ├── Module-3/
 │
 └── Module-4/
-    ├── 01-PLSQL-Basics.md
-    ├── 02-Conditional-Statements.md
-    ├── 03-Loops.md
-    ├── 04-Cursors.md
-    ├── 05-Exception-Handling.md
-    ├── 06-Procedures-and-Functions.md
-    ├── 07-Triggers.md
-    ├── 08-Records-and-Transactions.md
-    └── 09-ECommerce-PLSQL-Programs.md
+    ├── 1-PLSQL-Basics.md
+    ├── 2-Conditional-Statements.md
+    ├── 3-Loops.md
+    ├── 4-Cursors.md
+    ├── 5-Exception-Handling.md
+    ├── 6-Procedures-and-Functions.md
+    ├── 7-Triggers.md
+    ├── 8-Records-and-Transactions.md
+    └── 9-ECommerce-PLSQL-Programs.md
 ```
 ---
 
@@ -243,13 +243,13 @@ Customer 1 ─── N Cart
 ```text
 Module-2/
 │
-├── 01-Relational-Model-and-Schema.md
-├── 02-Keys-and-Integrity-Rules.md
-├── 03-Relational-Algebra.md
-├── 04-Tuple-Relational-Calculus.md
-├── 05-Codds-Rules.md
-├── 06-UML-Class-Diagram.md
-└── 07-Normalization.md
+├── 1-Relational-Model-and-Schema.md
+├── 2-Keys-and-Integrity-Rules.md
+├── 3-Relational-Algebra.md
+├── 4-Tuple-Relational-Calculus.md
+├── 5-Codds-Rules.md
+├── 6-UML-Class-Diagram.md
+└── 7-Normalization.md
 ```
 
 ---
@@ -512,15 +512,15 @@ To transform the **Module-1 ER model** into a structured, constraint-aware, quer
 PL-SQL/
 │
 ├── README.md
-├── 01-PLSQL-Basics.md
-├── 02-Conditional-Statements.md
-├── 03-Loops.md
-├── 04-Cursors.md
-├── 05-Exception-Handling.md
-├── 06-Procedures-and-Functions.md
-├── 07-Triggers.md
-├── 08-Records-and-Transactions.md
-└── 09-ECommerce-PLSQL-Programs.md
+├── 1-PLSQL-Basics.md
+├── 2-Conditional-Statements.md
+├── 3-Loops.md
+├── 4-Cursors.md
+├── 5-Exception-Handling.md
+├── 6-Procedures-and-Functions.md
+├── 7-Triggers.md
+├── 8-Records-and-Transactions.md
+└── 9-ECommerce-PLSQL-Programs.md
 ```
 
 ---
