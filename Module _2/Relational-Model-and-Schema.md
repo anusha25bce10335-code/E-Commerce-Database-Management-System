@@ -66,7 +66,7 @@ Two important properties separate a proper relation from a plain spreadsheet:
 
 ### 1.3 Relational Schema for the Project
 
-Putting everything together, the **relational schema** represents the complete structure of our e-commerce project.
+Putting everything together, the **relational schema** represents the complete structure of our e-commerce project .
 
 It is essentially the **ER diagram from Module 1 translated into relational tables**.
 
