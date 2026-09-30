@@ -377,14 +377,20 @@ The Module-2 concepts are applied to the **e-commerce entities developed in Modu
 
 ## 🗃️ Main Relations
 
-| # | Relation           | #  | Relation      |
-| - | ------------------ | -- | ------------- |
-| 1 | `customers`        | 7  | `order_items` |
-| 2 | `categories`       | 8  | `payments`    |
-| 3 | `products`         | 9  | `cart`        |
-| 4 | `suppliers`        | 10 | `reviews`     |
-| 5 | `product_supplier` | 11 | `shipments`   |
-| 6 | `orders`           |    |               |
+| # | Relation           
+| - | ------------------ |
+| 1 | `customers`        |
+| 2 | `categories`       | 
+| 3 | `products`         |
+| 4 | `suppliers`        | 
+| 5 | `product_supplier` | 
+| 6 | `orders`           |   
+| 7 | `order_items`      |
+| 8 | `payments`         |
+| 9 | `cart`             |
+| 10| `reviews`          |
+| 11| `shipments`        |
+|                        |
 
 ---
 
