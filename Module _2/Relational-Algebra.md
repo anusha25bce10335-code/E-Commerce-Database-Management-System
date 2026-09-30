@@ -1,4 +1,3 @@
-
 ## 3. Relational Algebra
 
 **Relational algebra** is a set of building-block operations for asking questions from a database.
