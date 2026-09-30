@@ -44,28 +44,23 @@ Topics covered:
 
 ---
 
-## Module 2 – SQL
+## Module 2 – Relational Model & Normalization
 
 Topics covered:
 
-- DDL Commands
-- DML Commands
-- TCL Commands
-- SELECT Statements
-- Aggregate Functions
-- NULL Values
-- GROUP BY and ORDER BY
-- Subqueries
-- Joins
-- Set Operators
-- SQL Functions
-- Multiple Table Queries
-- Views
-- Indexes
-- Sequences
-- Synonyms
-- Data Dictionary
-- Triggers
+- Structure of Relational Databases (Domains & Relations)
+- Relational Schemas & Attribute Constraints
+- Keys (Super, Candidate, Primary, Alternate, Foreign, Composite)
+- Relational Integrity Rules (Entity, Referential, Domain, Key)
+- Relational Algebra (Selection, Projection, Rename)
+- Relational Joins (Natural, Equi, Theta, Outer Joins)
+- Set Operations & Union Compatibility
+- Relational Division ("For Every" Queries)
+- Extended Relational Algebra (Grouping & Aggregation)
+- Tuple Relational Calculus (TRC & Codd's Theorem)
+- Codd's 12 Rules
+- UML Class Diagram Mapping
+- Normalization (UNF, 1NF, 2NF, 3NF, BCNF, 4NF)
 
 **Folder:** `Module-2/`
 
@@ -162,13 +157,13 @@ E-Commerce-Database-Management-System/
 │   └── ER-to-Relational-Schema.png
 │
 ├── Module-2/
-│   ├── Relational-Model-and-Schema.md      
-│   ├── Keys-and-Integrity-Rules.md        
-│   ├── Relational-Algebra.md              
-│   ├── Tuple-Relational-Calculus.md       
-│   ├── Codds-Rules.md                     
-│   ├── UML-Class-Diagram.md               
-│   └── Normalization.md
+│   ├── 1-Relational-Model-and-Schema.md      
+│   ├── 2-Keys-and-Integrity-Rules.md        
+│   ├── 3-Relational-Algebra.md              
+│   ├── 4-Tuple-Relational-Calculus.md       
+│   ├── 5-Codds-Rules.md                     
+│   ├── 6-UML-Class-Diagram.md               
+│   └── 7-Normalization.md
 │                   
 ├── Module-3/
 │
@@ -242,6 +237,262 @@ Customer 1 ─── N Cart
 **Note:** `Order_Item` uses `order_id + product_id` for identification, consistent with the Module-1 database design.
 
 ---
+
+# 📁 Module-2: Relational Model, Algebra & Normalization Structure
+
+```text
+Module-2/
+│
+├── 01-Relational-Model-and-Schema.md
+├── 02-Keys-and-Integrity-Rules.md
+├── 03-Relational-Algebra.md
+├── 04-Tuple-Relational-Calculus.md
+├── 05-Codds-Rules.md
+├── 06-UML-Class-Diagram.md
+└── 07-Normalization.md
+
+## 📚 Topics Covered
+
+### 1. Relational Model & Schema
+
+Covers the structure and foundation of the project's relational database:
+
+* Attribute domains and value restrictions
+* Schema, instance, tuples, and attributes
+* Degree, cardinality, and atomicity
+* Complete **12-table relational schema**
+* Weak entities: `CartItem`, `OrderItem`
+* Self-referencing `Category` relationship
+
+**Examples:** validation of `Customer.email`, `Product.price`, `Orders.status`, and category hierarchy using `parent_category_id`.
+
+---
+
+### 2. Keys & Integrity Rules
+
+Covers identification and protection of records:
+
+* Super Key
+* Candidate Key
+* Primary Key (PK)
+* Alternate Key
+* Foreign Key (FK)
+* Composite Key
+
+**Integrity Rules:**
+
+* Entity Integrity
+* Referential Integrity
+* Domain Integrity
+* Key Constraints
+
+Mapped to SQL using `PRIMARY KEY`, `FOREIGN KEY`, `NOT NULL`, and `CHECK`.
+
+---
+
+### 3. Relational Algebra
+
+Covers procedural operations for querying the database:
+
+* Selection (`σ`)
+* Projection (`π`)
+* Rename (`ρ`)
+* Joins: Natural, Theta, Equi, Self, Left Outer (`⟕`)
+* Set Operations: Union (`∪`), Intersection (`∩`), Difference (`−`)
+* Union compatibility
+* Relational Division (`÷`)
+* Aggregation & Grouping (`γ`)
+
+**Examples:** low-stock products, order receipts, dead inventory, category-loyal customers, category revenue, and customer order counts.
+
+---
+
+### 4. Tuple Relational Calculus (TRC)
+
+Covers declarative query formulation:
+
+* `{ t | P(t) }` notation
+* Existential quantifier (`∃`)
+* Universal quantifier (`∀`)
+* Codd's Theorem
+* Relational completeness
+
+**Examples:** high-value orders, bulk order items, and customers purchasing every product in a category.
+
+---
+
+### 5. Codd's 12 Rules
+
+Evaluation of the database against Codd's relational database criteria:
+
+* Rules **0–12**
+* Information representation
+* Guaranteed access
+* Systematic `NULL` handling
+* Online catalog
+* Comprehensive SQL sublanguage
+* View updating
+* Set-level operations
+* Physical & logical data independence
+* Integrity independence
+* Distribution independence
+* Non-subversion
+
+---
+
+### 6. Introduction to UML
+
+Maps the conceptual database design to UML Class Diagrams:
+
+* Classes and attributes
+* Associations and multiplicities (`0..*`, `1..1`)
+* Weak entities as Association Classes
+* Generalization hierarchies
+
+**Examples:** `Product–Category` association and `OrderItem` as the association class between `Orders` and `Product`.
+
+---
+
+### 7. Normalization (UNF → 4NF)
+
+Step-by-step decomposition to reduce redundancy and anomalies:
+
+| Form     | Main Concept               | Project Example               |
+| -------- | -------------------------- | ----------------------------- |
+| **UNF**  | Repeating groups           | Flat order spreadsheet        |
+| **1NF**  | Atomic values              | Separate `OrderItem` rows     |
+| **2NF**  | No partial dependency      | Separate product list price   |
+| **3NF**  | No transitive dependency   | Separate customer details     |
+| **BCNF** | Determinants are superkeys | Courier-zone dependency       |
+| **4NF**  | No unwanted MVDs           | Separate product tags & sizes |
+
+---
+
+# 🔗 Module-2 Schema Connection
+
+The Module-2 concepts are applied to the **e-commerce entities developed in Module 1**.
+
+## 🗃️ Main Relations
+
+|  # | Relation   |  # | Relation    |
+| -: | ---------- | -: | ----------- |
+|  1 | `Customer` |  7 | `CartItem`  |
+|  2 | `Address`  |  8 | `Orders`    |
+|  3 | `Category` |  9 | `OrderItem` |
+|  4 | `Seller`   | 10 | `Payment`   |
+|  5 | `Product`  | 11 | `Shipment`  |
+|  6 | `Cart`     | 12 | `Review`    |
+
+---
+
+## 🔗 Entity Relationships & Cardinality
+
+```text
+Customer  1 ──── N  Orders
+Customer  1 ──── 1  Cart
+Customer  1 ──── N  Address
+Customer  1 ──── N  Review
+
+Category  1 ──── N  Category
+                     ↑
+              Self-Referencing
+              parent_category_id
+
+Category  1 ──── N  Product
+Seller    1 ──── N  Product
+
+Cart      1 ──── N  CartItem
+Product   1 ──── N  CartItem
+
+Orders    1 ──── N  OrderItem
+Product   1 ──── N  OrderItem
+
+Orders    1 ──── 1  Payment
+Orders    1 ──── 1  Shipment
+Product   1 ──── N  Review
+```
+
+### Relationship Summary
+
+| Entity   | Relationship | Entity    | Cardinality |
+| -------- | ------------ | --------- | ----------: |
+| Customer | places       | Orders    |       `1:N` |
+| Customer | owns         | Cart      |       `1:1` |
+| Customer | has          | Address   |       `1:N` |
+| Customer | writes       | Review    |       `1:N` |
+| Category | contains     | Category  |       `1:N` |
+| Category | contains     | Product   |       `1:N` |
+| Seller   | sells        | Product   |       `1:N` |
+| Cart     | contains     | CartItem  |       `1:N` |
+| Product  | appears in   | CartItem  |       `1:N` |
+| Orders   | contains     | OrderItem |       `1:N` |
+| Product  | appears in   | OrderItem |       `1:N` |
+| Orders   | has          | Payment   |       `1:1` |
+| Orders   | has          | Shipment  |       `1:1` |
+| Product  | receives     | Review    |       `1:N` |
+
+### 🔑 Key Relationship Details
+
+**Category hierarchy:**
+
+```text
+parent_category_id → Category.category_id
+```
+
+```text
+Fashion
+ ├── Footwear
+ │    └── Running Shoes
+ └── Clothing
+```
+
+**Orders–Product (`M:N`) resolved through `OrderItem`:**
+
+```text
+Orders  1 ──── N  OrderItem  N ──── 1  Product
+```
+
+**Cart–Product (`M:N`) resolved through `CartItem`:**
+
+```text
+Cart  1 ──── N  CartItem  N ──── 1  Product
+```
+
+---
+
+## 🔄 Overall Module Flow
+
+```text
+ER Model
+   ↓
+Relational Schema
+   ↓
+Keys & Integrity Rules
+   ↓
+Relational Algebra
+   ↓
+Tuple Relational Calculus
+   ↓
+Codd's 12 Rules
+   ↓
+UML Data Model
+   ↓
+Normalization
+   ↓
+UNF → 1NF → 2NF → 3NF → BCNF → 4NF
+   ↓
+Final Relational Database Design
+```
+
+---
+
+## 🎯 Module Objective
+
+To transform the **Module-1 ER model** into a structured, constraint-aware, queryable, and normalized relational database using **relational algebra, TRC, UML, integrity rules, Codd's principles, and normalization**.
+
+
+
+
 
 # 📁 PL/SQL Module Structure
 
