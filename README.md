@@ -238,7 +238,7 @@ Customer 1 ─── N Cart
 ---
 
 
-## 📁  Module 2: Relational Model, Algebra & Normalization
+## 📁 Module 2: Relational Model, Algebra & Normalization
 
 ```text
 Module-2/
@@ -263,11 +263,10 @@ Covers the structure and foundation of the project's relational database:
 * Attribute domains and value restrictions
 * Schema, instance, tuples, and attributes
 * Degree, cardinality, and atomicity
-* Complete **12-table relational schema**
-* Weak entities: `CartItem`, `OrderItem`
-* Self-referencing `Category` relationship
+* Complete **11-table relational schema**
+* Composite/association tables for M:N relationships
 
-**Examples:** validation of `Customer.email`, `Product.price`, `Orders.status`, and category hierarchy using `parent_category_id`.
+**Examples:** validation of `customers.email`, `products.unit_price`, `products.stock_quantity`, `orders.order_status`, and `payments.payment_method`.
 
 ---
 
@@ -289,7 +288,7 @@ Covers record uniqueness and data integrity:
 * Domain Integrity
 * Key Constraints
 
-Mapped to SQL using `PRIMARY KEY`, `FOREIGN KEY`, `NOT NULL`, and `CHECK`.
+Mapped to SQL using `PRIMARY KEY`, `FOREIGN KEY`, `NOT NULL`, `UNIQUE`, and `CHECK`.
 
 ---
 
@@ -300,13 +299,14 @@ Covers procedural query operations:
 * Selection (`σ`)
 * Projection (`π`)
 * Rename (`ρ`)
-* Natural, Theta, Equi, Self & Left Outer Joins (`⟕`)
+* Natural, Theta, Equi & Left Outer Joins (`⟕`)
+* Cartesian Product (`×`)
 * Union (`∪`), Intersection (`∩`), Difference (`−`)
 * Union compatibility
 * Relational Division (`÷`)
 * Aggregation & Grouping (`γ`)
 
-**Examples:** low-stock products, order receipts, dead inventory, category-loyal customers, revenue, and order counts.
+**Examples:** low-stock products, order details, customers without reviews, products not ordered, category-based customers, revenue, and order counts.
 
 ---
 
@@ -320,7 +320,7 @@ Covers declarative query formulation:
 * Codd's Theorem
 * Relational completeness
 
-**Examples:** high-value orders, bulk order items, and customers purchasing every product in a category.
+**Examples:** high-value payments, products appearing in bulk order items, low-rated customer reviews, and customers purchasing every product in a category.
 
 ---
 
@@ -345,14 +345,14 @@ Evaluation of the database against Codd's relational database criteria:
 
 ### 6. Introduction to UML
 
-Maps the conceptual database design to UML Class Diagrams:
+Maps the relational database design to UML Class Diagrams:
 
 * Classes and attributes
 * Associations and multiplicities (`0..*`, `1..1`)
-* Weak entities as Association Classes
-* Generalization hierarchies
+* Association/bridge structures
+* Composite keys and foreign-key relationships
 
-**Examples:** `Product–Category` association and `OrderItem` as the association class between `Orders` and `Product`.
+**Examples:** `Product–Category` association, `Order–Product` relationship through `order_items`, and `Product–Supplier` relationship through `product_supplier`.
 
 ---
 
@@ -360,114 +360,229 @@ Maps the conceptual database design to UML Class Diagrams:
 
 Step-by-step decomposition to reduce redundancy and modification anomalies:
 
-| Form     | Main Concept               | Project Example               |
-| -------- | -------------------------- | ----------------------------- |
-| **UNF**  | Repeating groups           | Flat order spreadsheet        |
-| **1NF**  | Atomic values              | Separate `OrderItem` rows     |
-| **2NF**  | No partial dependency      | Separate product list price   |
-| **3NF**  | No transitive dependency   | Separate customer details     |
-| **BCNF** | Determinants are superkeys | Courier-zone dependency       |
-| **4NF**  | No unwanted MVDs           | Separate product tags & sizes |
+| Form     | Main Concept               | Project Example                          |
+| -------- | -------------------------- | ---------------------------------------- |
+| **UNF**  | Repeating groups           | Flat order spreadsheet                   |
+| **1NF**  | Atomic values              | Separate `order_items` rows              |
+| **2NF**  | No partial dependency      | Separate product-level information       |
+| **3NF**  | No transitive dependency   | Separate customer details                |
+| **BCNF** | Determinants are superkeys | Key-based dependencies                   |
+| **4NF**  | No unwanted MVDs           | Separate `product_supplier` relationship |
 
 ---
 
 # 🔗 Module-2 Schema Connection
 
-The Module-2 concepts are applied to the **e-commerce entities developed in Module 1**.
+The Module-2 concepts are applied to the **e-commerce entities developed in Module 1** and the actual project dataset.
 
 ## 🗃️ Main Relations
 
-|  # | Relation   |  # | Relation    |
-| -: | ---------- | -: | ----------- |
-|  1 | `Customer` |  7 | `CartItem`  |
-|  2 | `Address`  |  8 | `Orders`    |
-|  3 | `Category` |  9 | `OrderItem` |
-|  4 | `Seller`   | 10 | `Payment`   |
-|  5 | `Product`  | 11 | `Shipment`  |
-|  6 | `Cart`     | 12 | `Review`    |
+| # | Relation           | #  | Relation      |
+| - | ------------------ | -- | ------------- |
+| 1 | `customers`        | 7  | `order_items` |
+| 2 | `categories`       | 8  | `payments`    |
+| 3 | `products`         | 9  | `cart`        |
+| 4 | `suppliers`        | 10 | `reviews`     |
+| 5 | `product_supplier` | 11 | `shipments`   |
+| 6 | `orders`           |    |               |
+
+---
+
+## 📋 Actual Relational Schema
+
+```text
+customers(
+    customer_id PK,
+    customer_name,
+    email,
+    phone,
+    city,
+    state,
+    registration_date
+)
+
+categories(
+    category_id PK,
+    category_name
+)
+
+products(
+    product_id PK,
+    product_name,
+    category_id FK,
+    unit_price,
+    stock_quantity
+)
+
+suppliers(
+    supplier_id PK,
+    supplier_name,
+    city,
+    contact_email
+)
+
+product_supplier(
+    product_id FK,
+    supplier_id FK,
+    PK(product_id, supplier_id)
+)
+
+orders(
+    order_id PK,
+    customer_id FK,
+    order_date,
+    order_status
+)
+
+order_items(
+    order_id FK,
+    product_id FK,
+    quantity,
+    unit_price,
+    PK(order_id, product_id)
+)
+
+payments(
+    payment_id PK,
+    order_id FK,
+    payment_method,
+    amount,
+    payment_status
+)
+
+cart(
+    cart_id PK,
+    customer_id FK,
+    product_id FK,
+    quantity
+)
+
+reviews(
+    review_id PK,
+    customer_id FK,
+    product_id FK,
+    rating,
+    review_text
+)
+
+shipments(
+    shipment_id PK,
+    order_id FK,
+    courier_name,
+    tracking_number,
+    delivery_status
+)
+```
 
 ---
 
 ## 🔗 Entity Relationships & Cardinality
 
 ```text
-Customer  1 ──── N  Orders
-Customer  1 ──── 1  Cart
-Customer  1 ──── N  Address
-Customer  1 ──── N  Review
+customers  1 ──── N  orders
+customers  1 ──── 1  cart
+customers  1 ──── N  reviews
 
-Category  1 ──── N  Category
-                     ↑
-              Self-Referencing
-              parent_category_id
+categories 1 ──── N  products
 
-Category  1 ──── N  Product
-Seller    1 ──── N  Product
+products   M ──── N  suppliers
+              │
+              ▼
+       product_supplier
 
-Cart      1 ──── N  CartItem
-Product   1 ──── N  CartItem
+orders     1 ──── N  order_items
+products   1 ──── N  order_items
 
-Orders    1 ──── N  OrderItem
-Product   1 ──── N  OrderItem
+orders     1 ──── 1  payments
+orders     1 ──── 1  shipments
 
-Orders    1 ──── 1  Payment
-Orders    1 ──── 1  Shipment
-Product   1 ──── N  Review
+products   1 ──── N  reviews
 ```
 
 ### Relationship Summary
 
-| Entity   | Relationship | Entity    | Cardinality |
-| -------- | ------------ | --------- | ----------: |
-| Customer | places       | Orders    |       `1:N` |
-| Customer | owns         | Cart      |       `1:1` |
-| Customer | has          | Address   |       `1:N` |
-| Customer | writes       | Review    |       `1:N` |
-| Category | contains     | Category  |       `1:N` |
-| Category | contains     | Product   |       `1:N` |
-| Seller   | sells        | Product   |       `1:N` |
-| Cart     | contains     | CartItem  |       `1:N` |
-| Product  | appears in   | CartItem  |       `1:N` |
-| Orders   | contains     | OrderItem |       `1:N` |
-| Product  | appears in   | OrderItem |       `1:N` |
-| Orders   | has          | Payment   |       `1:1` |
-| Orders   | has          | Shipment  |       `1:1` |
-| Product  | receives     | Review    |       `1:N` |
+| Entity   | Relationship | Entity      | Cardinality |
+| -------- | ------------ | ----------- | ----------- |
+| Customer | places       | Orders      | `1:N`       |
+| Customer | owns         | Cart        | `1:1`       |
+| Customer | writes       | Review      | `1:N`       |
+| Category | contains     | Product     | `1:N`       |
+| Product  | supplied by  | Supplier    | `M:N`       |
+| Orders   | contains     | Order Items | `1:N`       |
+| Product  | appears in   | Order Items | `1:N`       |
+| Orders   | has          | Payment     | `1:1`       |
+| Orders   | has          | Shipment    | `1:1`       |
+| Product  | receives     | Review      | `1:N`       |
 
 ---
 
 ## 🔑 Key Relationship Details
 
-### Category Hierarchy
+### Product–Supplier Relationship
+
+The `M:N` relationship between products and suppliers is resolved through the bridge table `product_supplier`:
 
 ```text
-parent_category_id → Category.category_id
+Product  M ──── N  Supplier
+             │
+             ▼
+      product_supplier
 ```
+
+The bridge table uses a composite primary key:
 
 ```text
-Fashion
- ├── Footwear
- │    └── Running Shoes
- └── Clothing
+(product_id, supplier_id)
 ```
 
-This represents a **unary/self-referencing relationship**.
+This uniquely identifies each Product–Supplier association.
+
+---
 
 ### Orders–Product Relationship
 
-The `M:N` relationship is resolved through `OrderItem`:
+The `M:N` relationship between orders and products is resolved through `order_items`:
 
 ```text
-Orders  1 ──── N  OrderItem  N ──── 1  Product
+Orders  1 ──── N  order_items  N ──── 1  Products
 ```
+
+`order_items` stores transaction-specific information:
+
+```text
+order_id
+product_id
+quantity
+unit_price
+```
+
+The composite key is:
+
+```text
+(order_id, product_id)
+```
+
+---
 
 ### Cart–Product Relationship
 
-The `M:N` relationship is resolved through `CartItem`:
+The project stores cart contents directly in the `cart` relation:
 
 ```text
-Cart  1 ──── N  CartItem  N ──── 1  Product
+Customer  1 ──── 1  Cart
+Cart      ────────  Products
 ```
+
+The `cart` table contains:
+
+```text
+cart_id
+customer_id
+product_id
+quantity
+```
+
+There is **no separate `CartItem` table** in the actual dataset.
 
 ---
 
@@ -484,7 +599,7 @@ Relational Algebra
    ↓
 Tuple Relational Calculus
    ↓
-Codd's 12 Rules
+Codd's Rules
    ↓
 UML Data Model
    ↓
@@ -503,7 +618,7 @@ To transform the **Module-1 ER model** into a structured, constraint-aware, quer
 
 **Relational Model → Keys & Integrity → Relational Algebra → TRC → Codd's Rules → UML → Normalization**
 
-
+The final design is based on the project's actual e-commerce relations and demonstrates how relational database concepts are applied to real structured data.
 
 
 # 📁 PL/SQL Module Structure
