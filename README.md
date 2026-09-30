@@ -66,6 +66,42 @@ Topics covered:
 ---
 
 ## Module 3 – PL/SQL
+### Topics Covered
+
+- Relational Database Design
+- Features of the Relational Model
+- Atomic Domains and NULL Values
+- Primary Keys, Composite Keys and Foreign Keys
+- SQL Data Definition Language (DDL)
+- SQL Data Manipulation Language (DML)
+- Transaction Control Language (TCL)
+- Basic SELECT Statements
+- Restricting and Sorting Data
+- ORDER BY and GROUP BY
+- Aggregate Functions
+- Single-Row Functions
+- Conversion Functions
+- Conditional Expressions
+- Joins
+- Nested Queries / Subqueries
+- Set Operators
+- Views
+- Indexes
+- Sequences
+- Synonyms
+- Data Dictionary Views
+- Data Independence
+- Database Security
+- Updates on Views
+- Comparison Between Tables and Views
+
+
+
+**Folder:** `Module-3/`
+
+---
+
+## Module 4 – Storage and Query Processing
 
 Topics covered:
 
@@ -79,15 +115,6 @@ Topics covered:
 - Triggers
 - Packages
 - Exception Handling
-
-**Folder:** `Module-3/`
-
----
-
-## Module 4 – Storage and Query Processing
-
-Topics covered:
-
 - File Organization
 - Storage
 - Indexing
@@ -165,6 +192,13 @@ E-Commerce-Database-Management-System/
 │   └── 7-Normalization.md
 │                   
 ├── Module-3/
+    ├── 1_Relational_Database_Design.md
+    ├── 2_SQL_SELECT_and_Data_Retrieval.md
+    ├── 3_DML_TCL_and_Table_Operations.md
+    ├── 4_Joins_Subqueries_and_Set_Opeartors.md
+    ├── 5_Aggregate_Group_By_and_Functions.md
+    ├── 6_Views_Indexes_Sequences_and_Security.md
+    ├── 7_Practoces_Questions_and_Mini_Excercises.md
 │
 └── Module-4/
     ├── 1-PLSQL-Basics.md
@@ -625,6 +659,74 @@ To transform the **Module-1 ER model** into a structured, constraint-aware, quer
 **Relational Model → Keys & Integrity → Relational Algebra → TRC → Codd's Rules → UML → Normalization**
 
 The final design is based on the project's actual e-commerce relations and demonstrates how relational database concepts are applied to real structured data.
+
+# Module 3 – SQL and Relational Database
+
+This module covers SQL and relational database concepts using an E-Commerce Database Management System dataset.
+
+## Topics Covered
+
+- Relational Database Design
+- Features of the Relational Model
+- Atomic Domains and NULL Values
+- Primary Keys, Composite Keys and Foreign Keys
+- SQL Data Definition Language (DDL)
+- SQL Data Manipulation Language (DML)
+- Transaction Control Language (TCL)
+- Basic SELECT Statements
+- Restricting and Sorting Data
+- ORDER BY and GROUP BY
+- Aggregate Functions
+- Single-Row Functions
+- Conversion Functions
+- Conditional Expressions
+- Joins
+- Nested Queries / Subqueries
+- Set Operators
+- Views
+- Indexes
+- Sequences
+- Synonyms
+- Data Dictionary Views
+- Data Independence
+- Database Security
+- Updates on Views
+- Comparison Between Tables and Views
+
+## Module 3 Files
+
+The module is organized into beginner-friendly Markdown files:
+
+1. `Relational_Database_Design.md`
+2. `SQL_SELECT_and_Data_Retrieval.md`
+3. `DML_TCL_and_Table_Operations.md`
+4. `Joins_Subqueries_and_Set_Operators.md`
+5. `Aggregate_Group_By_and_Functions.md`
+6. `Views_Indexes_Sequences_and_Security.md`
+7. `Practice_Questions_and_Mini_Exercises.md`
+
+## Dataset Used
+
+The module uses an E-Commerce / Online Shopping database containing tables such as:
+
+- Customers
+- Categories
+- Products
+- Suppliers
+- Product-Supplier
+- Orders
+- Order Items
+- Payments
+- Shipments
+- Reviews
+- Cart
+
+The dataset is used to demonstrate SQL queries, joins, aggregate functions, subqueries, views, indexes and other database concepts.
+
+## Contribution
+
+**Module 3:** SQL and Relational Database Concepts  
+**Contributor:** Pari Bansal
 
 
 # 📁 PL/SQL Module Structure
