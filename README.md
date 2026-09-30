@@ -48,19 +48,18 @@ Topics covered:
 
 Topics covered:
 
-- Structure of Relational Databases (Domains & Relations)
-- Relational Schemas & Attribute Constraints
-- Keys (Super, Candidate, Primary, Alternate, Foreign, Composite)
-- Relational Integrity Rules (Entity, Referential, Domain, Key)
-- Relational Algebra (Selection, Projection, Rename)
-- Relational Joins (Natural, Equi, Theta, Outer Joins)
-- Set Operations & Union Compatibility
-- Relational Division ("For Every" Queries)
-- Extended Relational Algebra (Grouping & Aggregation)
-- Tuple Relational Calculus (TRC & Codd's Theorem)
+- Domains and Relations
+- Relational Schema Design
+- Keys and Key Constraints
+- Relational Integrity Rules
+- Relational Algebra Operations
+- Joins and Set Operations
+- Relational Division
+- Extended Relational Algebra
+- Tuple Relational Calculus
 - Codd's 12 Rules
 - UML Class Diagram Mapping
-- Normalization (UNF, 1NF, 2NF, 3NF, BCNF, 4NF)
+- Normalization (UNF to 4NF)
 
 **Folder:** `Module-2/`
 
@@ -341,8 +340,6 @@ Evaluation of the database against Codd's relational database criteria:
 * Integrity independence
 * Distribution independence
 * Non-subversion
-
-> **Note:** Rules 0–12 represent **13 rules** in total.
 
 ---
 
