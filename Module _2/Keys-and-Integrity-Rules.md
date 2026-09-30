@@ -1,4 +1,4 @@
-# 2. Logical View of Data: Keys and Integrity Rules
+# 2. Logical View of Data Keys and Integrity Rules
 
 ## 2.1 Relational Schema
 
