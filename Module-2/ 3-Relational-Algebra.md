@@ -64,7 +64,6 @@ The **Rename** operation allows us to give a table or its columns a new name.
 
 It is especially useful when a table needs to be referenced more than once, such as in a **self-join**.
 
-> **Note:** The actual `categories` table does not contain `parent_category_id`, so category hierarchy/self-join is not used in this project.
 
 ### Example
 
