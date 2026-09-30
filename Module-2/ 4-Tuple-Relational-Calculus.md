@@ -11,7 +11,7 @@ This is different from **Relational Algebra**, which is procedural and describes
 
 A TRC query generally has the form:
 
-```text id="i4n4f5"
+```text
 { t | P(t) }
 ```
 
@@ -28,61 +28,65 @@ These quantifiers allow us to express relationships such as **joins** and **"for
 
 ---
 
-## 4.1 Example 1 — Orders Above ₹5000
+## 4.1 Example 1 — Payments Above ₹5000
 
-```text id="7d5v3z"
-{ t | ∃ c ∈ Customer
-    (c.customer_id = t.customer_id
-    ∧ t ∈ Orders
-    ∧ t.total_amount > 5000)
+The actual `orders` table does not contain a `total_amount` column. The project stores payment amounts in the `payments` table.
+
+```text
+{ p | p ∈ payments
+    ∧ p.amount > 5000
 }
 ```
 
 ### Meaning
 
-Returns all orders having a **total amount greater than ₹5000**.
+Returns all payment tuples having an **amount greater than ₹5000**.
 
 The query is expressed declaratively without specifying how the database should perform the retrieval.
 
 ### Equivalent Relational Algebra
 
-```text id="8qv2yt"
-σ total_amount > 5000 (Orders)
+```text
+σ amount > 5000 (payments)
 ```
 
 ---
 
 ## 4.2 Example 2 — Bulk/Wholesale Purchases
 
-```text id="p0t3h6"
-{ p.name | p ∈ Product
-    ∧ ∃ o ∈ OrderItem
-    (o.product_id = p.product_id
-    ∧ o.quantity > 100)
+```text
+{ pr.product_name | pr ∈ products
+    ∧ ∃ oi ∈ order_items
+    (oi.product_id = pr.product_id
+    ∧ oi.quantity > 10)
 }
 ```
 
 ### Meaning
 
-Returns the **names of products** that have been ordered in a single order line with a quantity greater than **100 units**.
+Returns the **names of products** that have been ordered in a single order line with a quantity greater than **10 units**.
 
 This could represent a **bulk or wholesale purchase**.
 
 ---
 
-## 4.3 Example 3 — Customers Who Bought Every Product in Category 5
+## 4.3 Example 3 — Customers Who Bought Every Product in Category 1
 
-```text id="k6w4pz"
-{ c | c ∈ Customer
-    ∧ ∀ p ∈ (σ category_id = 5 (Product))
-    ∃ o ∈ OrderItem
-    (... p.product_id = o.product_id ...)
+```text
+{ c.customer_id | c ∈ customers
+    ∧ ∀ p ∈ products
+    (p.category_id = 1
+    → ∃ oi ∈ order_items
+    ∃ o ∈ orders
+    (o.customer_id = c.customer_id
+    ∧ oi.order_id = o.order_id
+    ∧ oi.product_id = p.product_id))
 }
 ```
 
 ### Meaning
 
-Returns customers who have purchased **every product belonging to category 5**.
+Returns customer IDs of customers who have purchased **every product belonging to category 1**.
 
 The important part is the use of the universal quantifier:
 
@@ -97,7 +101,7 @@ This is the TRC equivalent of the **division operation (÷)** discussed in Secti
 ### Conceptual Flow
 
 ```text
-Category 5 Products
+Category 1 Products
         ↓
 Check each product
         ↓
@@ -114,7 +118,25 @@ Return Customer
 
 ---
 
-## 4.4 Relational Algebra and TRC — Expressive Power
+## 4.4 Example 4 — Customers Who Gave Low Ratings
+
+```text
+{ c.customer_name | c ∈ customers
+    ∧ ∃ r ∈ reviews
+    (r.customer_id = c.customer_id
+    ∧ r.rating ≤ 2)
+}
+```
+
+### Meaning
+
+Returns the names of customers who have given a **rating of 2 or below**.
+
+This demonstrates how TRC can express relationships between `customers` and `reviews`.
+
+---
+
+## 4.5 Relational Algebra and TRC — Expressive Power
 
 **Relational Algebra** and **safe Tuple Relational Calculus** have the **same expressive power**.
 
@@ -132,11 +154,11 @@ Therefore, both approaches can express the same class of database queries, even 
 
 ### Quick Comparison
 
-| Feature                  | Relational Algebra               | Tuple Relational Calculus                   |
-| ------------------------ | -------------------------------- | ------------------------------------------- |
-| Approach                 | Procedural                       | Declarative                                 |
-| Focus                    | **How** to obtain data           | **What** data is required                   |
-| Basic notation           | `σ`, `π`, `⋈`, `∪`, etc.         | `{t \| P(t)}`                               |
-| Uses logical quantifiers | Not primarily                    | `∃`, `∀`                                    |
-| Expressive power         | Relationally complete            | Relationally complete                       |
-| Example                  | `σ total_amount > 5000 (Orders)` | `{t \| t ∈ Orders ∧ t.total_amount > 5000}` |
+| Feature                  | Relational Algebra           | Tuple Relational Calculus               |
+| ------------------------ | ---------------------------- | --------------------------------------- |
+| Approach                 | Procedural                   | Declarative                             |
+| Focus                    | **How** to obtain data       | **What** data is required               |
+| Basic notation           | `σ`, `π`, `⋈`, `∪`, etc.     | `{t \| P(t)}`                           |
+| Uses logical quantifiers | Not primarily                | `∃`, `∀`                                |
+| Expressive power         | Relationally complete        | Relationally complete                   |
+| Example                  | `σ amount > 5000 (payments)` | `{p \| p ∈ payments ∧ p.amount > 5000}` |
