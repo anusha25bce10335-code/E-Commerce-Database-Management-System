@@ -162,7 +162,14 @@ E-Commerce-Database-Management-System/
 │   └── ER-to-Relational-Schema.png
 │
 ├── Module-2/
-│
+│   ├── Relational-Model-and-Schema.md      
+│   ├── Keys-and-Integrity-Rules.md        
+│   ├── Relational-Algebra.md              
+│   ├── Tuple-Relational-Calculus.md       
+│   ├── Codds-Rules.md                     
+│   ├── UML-Class-Diagram.md               
+│   └── Normalization.md
+│                   
 ├── Module-3/
 │
 └── Module-4/
