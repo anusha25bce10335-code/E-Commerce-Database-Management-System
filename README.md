@@ -65,7 +65,7 @@ Topics covered:
 
 ---
 
-## Module 3 – PL/SQL
+## Module 3 – SQL
 ### Topics Covered
 
 - Relational Database Design
