@@ -2,59 +2,55 @@
 
 ## 2.1 Relational Schema
 
-The logical view of our e-commerce database can be represented using the following relational schemas.
+The logical view of our e-commerce database can be represented using the following relational schemas based on the actual project dataset.
 
-### Customer
+### Customers
 
-`Customer (customer_id [PK], name, email, phone, password)`
+`customers (customer_id [PK], customer_name, email, phone, city, state, registration_date)`
 
-### Address
+### Categories
 
-`Address (address_id [PK], customer_id [FK → Customer], street, city, state, pincode, type)`
+`categories (category_id [PK], category_name)`
 
-### Category
+### Products
 
-`Category (category_id [PK], category_name, parent_category_id [FK → Category])`
+`products (product_id [PK], product_name, category_id [FK → categories], unit_price, stock_quantity)`
 
-### Seller
+### Suppliers
 
-`Seller (seller_id [PK], name, rating, gst_number)`
+`suppliers (supplier_id [PK], supplier_name, city, contact_email)`
 
-### Product
+### Product Supplier
 
-`Product (product_id [PK], name, description, price, stock_qty, category_id [FK → Category], seller_id [FK → Seller])`
+`product_supplier (product_id [FK → products], supplier_id [FK → suppliers])`
+
+**Composite Primary Key:** `(product_id, supplier_id)`
 
 ### Cart
 
-`Cart (cart_id [PK], customer_id [FK → Customer])`
-
-### CartItem
-
-`CartItem (cart_id [FK → Cart], product_id [FK → Product], quantity)`
-
-**Composite Primary Key:** `(cart_id, product_id)`
+`cart (cart_id [PK], customer_id [FK → customers], product_id [FK → products], quantity)`
 
 ### Orders
 
-`Orders (order_id [PK], customer_id [FK → Customer], order_date, status, total_amount)`
+`orders (order_id [PK], customer_id [FK → customers], order_date, order_status)`
 
-### OrderItem
+### Order Items
 
-`OrderItem (order_id [FK → Orders], product_id [FK → Product], quantity, unit_price)`
+`order_items (order_id [FK → orders], product_id [FK → products], quantity, unit_price)`
 
 **Composite Primary Key:** `(order_id, product_id)`
 
-### Payment
+### Payments
 
-`Payment (payment_id [PK], order_id [FK → Orders], amount, method, status, payment_date)`
+`payments (payment_id [PK], order_id [FK → orders], payment_method, amount, payment_status)`
 
-### Shipment
+### Shipments
 
-`Shipment (shipment_id [PK], order_id [FK → Orders], courier, tracking_no, delivery_status, eta)`
+`shipments (shipment_id [PK], order_id [FK → orders], courier_name, tracking_number, delivery_status)`
 
-### Review
+### Reviews
 
-`Review (review_id [PK], customer_id [FK → Customer], product_id [FK → Product], rating, comment, date)`
+`reviews (review_id [PK], customer_id [FK → customers], product_id [FK → products], rating, review_text)`
 
 ---
 
@@ -66,37 +62,26 @@ Different types of keys provide different levels of uniqueness and constraints.
 
 | Key Type             | What It Means                                                                                           | Example from Our Schema                                                                         |
 | -------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| **Super Key**        | Any set of columns that can uniquely identify a row. It may contain extra, unnecessary columns.         | `{order_id, order_date}` in `Orders`. `order_id` alone is sufficient, so `order_date` is extra. |
-| **Candidate Key**    | A super key with no redundant column — the minimum set of attributes needed to uniquely identify a row. | `{order_id}` in `Orders`; `{cart_id, product_id}` in `CartItem`                                 |
-| **Primary Key (PK)** | The candidate key selected to uniquely identify rows in a table.                                        | `product_id` in `Product`                                                                       |
-| **Alternate Key**    | A candidate key that exists but was not selected as the primary key.                                    | `email` in `Customer`, since `customer_id` is chosen as the PK                                  |
-| **Foreign Key (FK)** | A column or set of columns that references a primary key in another table or the same table.            | `Product.category_id` → `Category.category_id`                                                  |
-| **Composite Key**    | A key consisting of more than one column used together to uniquely identify a row.                      | `{order_id, product_id}` in `OrderItem`                                                         |
+| **Super Key**        | Any set of columns that can uniquely identify a row. It may contain extra, unnecessary columns.         | `{order_id, order_date}` in `orders`. `order_id` alone is sufficient, so `order_date` is extra. |
+| **Candidate Key**    | A super key with no redundant column — the minimum set of attributes needed to uniquely identify a row. | `{order_id}` in `orders`; `{order_id, product_id}` in `order_items`                             |
+| **Primary Key (PK)** | The candidate key selected to uniquely identify rows in a table.                                        | `product_id` in `products`                                                                      |
+| **Alternate Key**    | A candidate key that exists but was not selected as the primary key.                                    | `email` in `customers`, assuming it is unique                                                   |
+| **Foreign Key (FK)** | A column or set of columns that references a primary key in another table.                              | `products.category_id` → `categories.category_id`                                               |
+| **Composite Key**    | A key consisting of more than one column used together to uniquely identify a row.                      | `{order_id, product_id}` in `order_items`                                                       |
 
-### Self-Referencing Foreign Key
+### Composite Keys in the Dataset
 
-An interesting case in our schema is:
-
-`Category.parent_category_id → Category.category_id`
-
-This is a **self-referencing (unary) foreign key** because the foreign key points to the primary key of the **same table**.
-
-It is used to represent **subcategories**.
-
-For example:
+Two important bridge/transaction tables use composite primary keys:
 
 ```text
-Fashion
-   ↓
-Footwear
-   ↓
-Running Shoes
+order_items
+PK = (order_id, product_id)
+
+product_supplier
+PK = (product_id, supplier_id)
 ```
 
-Here:
-
-* `Running Shoes` can have `parent_category_id` pointing to `Footwear`.
-* `Footwear` can have `parent_category_id` pointing to `Fashion`.
+These combinations ensure that the same product is not unnecessarily repeated within the same order or supplier relationship.
 
 ---
 
@@ -112,15 +97,21 @@ Integrity rules ensure that the database remains **accurate, consistent, and val
 
 **Example:**
 
-Every row in `Orders` must have an `order_id`.
+Every row in `orders` must have an `order_id`.
 
-Similarly, every row in `OrderItem` must have both:
+Similarly, every row in `order_items` must have both:
 
 ```text
 order_id + product_id
 ```
 
 An order item without a product ID would not make sense.
+
+The same principle applies to `product_supplier`:
+
+```text
+product_id + supplier_id
+```
 
 ---
 
@@ -133,18 +124,24 @@ A non-null **foreign key** value must match an existing primary key value in the
 If:
 
 ```text
-OrderItem.product_id = 87
+order_items.product_id = 87
 ```
 
 then a product with:
 
 ```text
-Product.product_id = 87
+products.product_id = 87
 ```
 
-must actually exist in the `Product` table.
+must actually exist in the `products` table.
 
-Therefore, the database should not allow an order item to reference a product that does not exist.
+Similarly:
+
+```text
+orders.customer_id → customers.customer_id
+```
+
+Therefore, the database should not allow an order to reference a customer that does not exist.
 
 ---
 
@@ -154,15 +151,19 @@ Every value stored in a column must follow the **domain rules** defined for that
 
 **Examples:**
 
-* `Product.price` cannot be `-500`.
-* `Product.stock_qty` cannot be negative.
-* `Orders.status` must be one of the allowed values:
+* `products.unit_price` must be greater than `0`.
+* `products.stock_quantity` cannot be negative.
+* `orders.order_status` must use an allowed status such as:
 
-  * `PLACED`
-  * `CONFIRMED`
-  * `SHIPPED`
-  * `DELIVERED`
-  * `CANCELLED`
+  * `Delivered`
+  * `Cancelled`
+  * `Pending`
+* `payments.payment_method` can use values such as:
+
+  * `Cash on Delivery`
+  * `Credit Card`
+  * `UPI`
+  * `Net Banking`
 
 ---
 
@@ -180,9 +181,9 @@ Two different rows cannot have the same:
 order_id
 ```
 
-in the `Orders` table.
+in the `orders` table.
 
-For `OrderItem`, the combination:
+For `order_items`, the combination:
 
 ```text
 (order_id, product_id)
@@ -190,17 +191,26 @@ For `OrderItem`, the combination:
 
 must be unique.
 
+For `product_supplier`:
+
+```text
+(product_id, supplier_id)
+```
+
+must also be unique.
+
 ---
 
 ## 2.4 Why This Matters for Module 3
 
 These four integrity rules are not just theoretical concepts. They are directly implemented in SQL using constraints such as:
 
-| Integrity Requirement           | SQL Constraint |
-| ------------------------------- | -------------- |
-| Unique row identification       | `PRIMARY KEY`  |
-| Relationship between tables     | `FOREIGN KEY`  |
-| Prevent missing required values | `NOT NULL`     |
-| Restrict allowed values         | `CHECK`        |
+| Integrity Requirement                  | SQL Constraint |
+| -------------------------------------- | -------------- |
+| Unique row identification              | `PRIMARY KEY`  |
+| Relationship between tables            | `FOREIGN KEY`  |
+| Prevent missing required values        | `NOT NULL`     |
+| Restrict allowed values                | `CHECK`        |
+| Prevent duplicate alternate-key values | `UNIQUE`       |
 
 Therefore, this section provides the **logical reasoning behind the SQL constraints** that will be implemented later in the DDL scripts of Module 3.
