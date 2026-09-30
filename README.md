@@ -238,7 +238,8 @@ Customer 1 ─── N Cart
 
 ---
 
-# 📁 Module-2: Relational Model, Algebra & Normalization Structure
+
+## 📁  Module 2: Relational Model, Algebra & Normalization
 
 ```text
 Module-2/
@@ -250,6 +251,9 @@ Module-2/
 ├── 05-Codds-Rules.md
 ├── 06-UML-Class-Diagram.md
 └── 07-Normalization.md
+```
+
+---
 
 ## 📚 Topics Covered
 
@@ -270,7 +274,7 @@ Covers the structure and foundation of the project's relational database:
 
 ### 2. Keys & Integrity Rules
 
-Covers identification and protection of records:
+Covers record uniqueness and data integrity:
 
 * Super Key
 * Candidate Key
@@ -292,18 +296,18 @@ Mapped to SQL using `PRIMARY KEY`, `FOREIGN KEY`, `NOT NULL`, and `CHECK`.
 
 ### 3. Relational Algebra
 
-Covers procedural operations for querying the database:
+Covers procedural query operations:
 
 * Selection (`σ`)
 * Projection (`π`)
 * Rename (`ρ`)
-* Joins: Natural, Theta, Equi, Self, Left Outer (`⟕`)
-* Set Operations: Union (`∪`), Intersection (`∩`), Difference (`−`)
+* Natural, Theta, Equi, Self & Left Outer Joins (`⟕`)
+* Union (`∪`), Intersection (`∩`), Difference (`−`)
 * Union compatibility
 * Relational Division (`÷`)
 * Aggregation & Grouping (`γ`)
 
-**Examples:** low-stock products, order receipts, dead inventory, category-loyal customers, category revenue, and customer order counts.
+**Examples:** low-stock products, order receipts, dead inventory, category-loyal customers, revenue, and order counts.
 
 ---
 
@@ -328,7 +332,7 @@ Evaluation of the database against Codd's relational database criteria:
 * Rules **0–12**
 * Information representation
 * Guaranteed access
-* Systematic `NULL` handling
+* `NULL` handling
 * Online catalog
 * Comprehensive SQL sublanguage
 * View updating
@@ -337,6 +341,8 @@ Evaluation of the database against Codd's relational database criteria:
 * Integrity independence
 * Distribution independence
 * Non-subversion
+
+> **Note:** Rules 0–12 represent **13 rules** in total.
 
 ---
 
@@ -355,7 +361,7 @@ Maps the conceptual database design to UML Class Diagrams:
 
 ### 7. Normalization (UNF → 4NF)
 
-Step-by-step decomposition to reduce redundancy and anomalies:
+Step-by-step decomposition to reduce redundancy and modification anomalies:
 
 | Form     | Main Concept               | Project Example               |
 | -------- | -------------------------- | ----------------------------- |
@@ -431,9 +437,11 @@ Product   1 ──── N  Review
 | Orders   | has          | Shipment  |       `1:1` |
 | Product  | receives     | Review    |       `1:N` |
 
-### 🔑 Key Relationship Details
+---
 
-**Category hierarchy:**
+## 🔑 Key Relationship Details
+
+### Category Hierarchy
 
 ```text
 parent_category_id → Category.category_id
@@ -446,13 +454,19 @@ Fashion
  └── Clothing
 ```
 
-**Orders–Product (`M:N`) resolved through `OrderItem`:**
+This represents a **unary/self-referencing relationship**.
+
+### Orders–Product Relationship
+
+The `M:N` relationship is resolved through `OrderItem`:
 
 ```text
 Orders  1 ──── N  OrderItem  N ──── 1  Product
 ```
 
-**Cart–Product (`M:N`) resolved through `CartItem`:**
+### Cart–Product Relationship
+
+The `M:N` relationship is resolved through `CartItem`:
 
 ```text
 Cart  1 ──── N  CartItem  N ──── 1  Product
@@ -488,8 +502,9 @@ Final Relational Database Design
 
 ## 🎯 Module Objective
 
-To transform the **Module-1 ER model** into a structured, constraint-aware, queryable, and normalized relational database using **relational algebra, TRC, UML, integrity rules, Codd's principles, and normalization**.
+To transform the **Module-1 ER model** into a structured, constraint-aware, queryable, and normalized relational database using:
 
+**Relational Model → Keys & Integrity → Relational Algebra → TRC → Codd's Rules → UML → Normalization**
 
 
 
