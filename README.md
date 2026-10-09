@@ -177,7 +177,7 @@ E-Commerce-Database-Management-System/
 │   ├── Entities-and-Attributes.md
 │   ├── Relationships-and-Constraints.md
 │   ├── Weak-Entity-Sets.md
-│   ├── ERD-Issues.md
+│ 
 │   ├── ER-Diagram.png
 │   └── ER-to-Relational-Schema.png
 │
