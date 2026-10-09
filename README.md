@@ -36,7 +36,6 @@ Topics covered:
 - Relationships
 - Constraints
 - ER Diagrams
-- ERD Issues
 - Weak Entity Sets
 - Conversion of ER Diagram into Relational Schema
 
